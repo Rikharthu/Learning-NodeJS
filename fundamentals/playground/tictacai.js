@@ -46,7 +46,11 @@ var origBoard = ["O", 1, "X", "X", 4, "X", 6, "O", "O"];
 var fc = 0;
 
 // finding the ultimate play on the game that favors the computer
+
+origBoard = [0, 1, 2, 3, 4, 5, 6, 7, 8]
 var bestSpot = minimax(origBoard, aiPlayer);
+console.log(origBoard)
+
 
 //loging the results
 console.log("index: " + bestSpot.index);
