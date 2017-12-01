@@ -14,4 +14,20 @@ var getWeather = (lat, lng, callback) => {
     })
 };
 
+var getWeatherPromise = (lat, lng) => {
+    return new Promise((resolve, reject) => {
+        request({
+            url: `https://api.darksky.net/forecast/${darkSkyApiKey}/${lat},${lng}`,
+            json: true
+        }, (error, response, body) => {
+            if (!error && response.statusCode === 200) {
+                resolve(body.currently);
+            } else {
+                reject('Unable to fetch weather.');
+            }
+        })
+    })
+}
+
 module.exports.getWeather = getWeather
+module.exports.getWeatherPromise = getWeatherPromise
