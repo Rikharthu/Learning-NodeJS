@@ -10,18 +10,24 @@ let protoRabbit = {
 };
 // This is what a constructor function does:
 function makeRabbit(type) {
+    // Create prototype object
     let rabbit = Object.create(protoRabbit);
+    // initialize fields
     rabbit.type = type;
+    // return object
     return rabbit;
 }
 
 let lazyRabbit = makeRabbit('lazy');
 lazyRabbit.speak('...');
+console.log("lazyRabbit's prototype: " + Object.getPrototypeOf(lazyRabbit))
+console.log("makeRabbit's prototype is Function.prototype? " + (Object.getPrototypeOf(makeRabbit) == Function.prototype))
+// -> true
 
 /*
 If you put the keyword 'new' in front of a function call, the function is treated as a constructor:
 an object with the right prototype is automatically created, bound to 'this' in the function
-and returned at the end of the function
+and returned at the end of the functio
 */
 function Rabbit(type) {
     this.type = type;
@@ -32,6 +38,11 @@ Rabbit.prototype.speak = function (line) {
 };
 let weirdRabbit = new Rabbit('weird');
 weirdRabbit.speak('Show titties');
+
+let testRabbit = Rabbit("test") // undefined, object and prototype not created
+// testRabbit.speak("I am a test rabbit")
+// Error - prototype is not bound, thus .speak() is not available
+
 /*
 Constructors (all functions, in fact) automatically get a property named prototype, which by default holds a plain, 
 empty object that derives from Object.prototype. 
@@ -39,10 +50,14 @@ You can overwrite it with a new object if you want.
 Or you can add properties to the existing object, as the example does.
 */
 // Function's prototype property is an empty object that derives from Object.prototype
-console.log(Rabbit.prototype);
+console.log("Rabbit.prototype: ");
+console.log(Rabbit.prototype)
 // -> Rabbit { speak: [Function] }
-console.log(Object.getPrototypeOf(Rabbit.prototype));
+console.log("prototype of Rabbit.prototype:");
+console.log(Object.getPrototypeOf(Rabbit.prototype))
 // -> {}
+console.log(Object.getPrototypeOf(weirdRabbit) == Rabbit.prototype)
+// -> true
 
 /* !!!
 The actual prototype of a constructor is Function.prototype since constructors are functions. 
@@ -72,6 +87,10 @@ let killerRacoon = new Racoon("killer");
 let blackRacoon = new Racoon("black");
 killerRacoon.speak("A");
 blackRacoon.speak("B");
+console.log(Object.getPrototypeOf(killerRacoon))
+// -> Racoon {}
+console.log(Object.getPrototypeOf(killerRacoon) == Racoon.prototype)
+// -> true
 
 // 'class' can also be used in an expression
 let object = new class { getWord() { return "Hello"; } };
@@ -101,5 +120,5 @@ console.log([1, 2].toString());
 // → 1,2
 
 // Emulates a call to <some_array>.toString(), but from Object's prototype instead of Array.prototype
-console.log(Object.prototype.toString.call([1, 2])); 
+console.log(Object.prototype.toString.call([1, 2]));
 // → [object Array]
