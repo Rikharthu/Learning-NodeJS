@@ -42,5 +42,4 @@ boundedAdd.call(computation2, 1, 2);
 // even though context passed to call is
 // `computation2`
 // computation1 after call: { result: 18 }
-
 console.log(computation1);
